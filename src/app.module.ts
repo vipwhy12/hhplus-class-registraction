@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppController } from './app.controller';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Lecture } from './lecture/entity/lecture.entity';
 import { LectureModule } from './lecture/lecture.module';
-import { LectureSchedule } from './lecture/entity/lecture.schedule.entity';
+import { Lecture } from './lecture/entity/lecture.entity';
+import { LectureOption } from './lecture/entity/lecture.option.entity';
 import { LectureStatus } from './lecture/entity/lecture.status.entity';
 
 @Module({
@@ -17,7 +17,7 @@ import { LectureStatus } from './lecture/entity/lecture.status.entity';
       synchronize: true,
       logging: true,
       // dropSchema: true,
-      entities: [Lecture, LectureStatus, LectureSchedule],
+      entities: [Lecture, LectureStatus, LectureOption],
     }),
   ],
   controllers: [AppController],

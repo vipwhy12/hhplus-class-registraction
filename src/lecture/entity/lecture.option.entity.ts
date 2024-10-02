@@ -2,14 +2,14 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Lecture } from './lecture.entity';
 import { LectureStatus } from './lecture.status.entity';
 
-@Entity()
-export class LectureSchedule {
+@Entity('lecture_option')
+export class LectureOption {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
@@ -19,12 +19,10 @@ export class LectureSchedule {
   @Column({ type: 'date' })
   lectureDate: Date;
 
-  @ManyToOne(() => Lecture, (lecture) => lecture.lectureSchedule)
+  @ManyToOne(() => Lecture, (lecture) => lecture.lectureOption)
   lecture: Lecture;
 
-  @OneToMany(
-    () => LectureStatus,
-    (lectureStatus) => lectureStatus.lectureSchedule,
-  )
-  lectureStatus: LectureStatus[];
+  // 1:1 관계 설정 (LectureOption은 하나의 LectureStatus를 가짐)
+  @OneToOne(() => LectureStatus, (lectureStatus) => lectureStatus.lectureOption)
+  lectureStatus: LectureStatus;
 }

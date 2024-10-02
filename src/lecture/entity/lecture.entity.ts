@@ -1,8 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { LectureSchedule } from './lecture.schedule.entity';
-import { LectureStatus } from './lecture.status.entity';
+import { LectureOption } from './lecture.option.entity';
 
-@Entity()
+@Entity('lecture')
 export class Lecture {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -11,14 +10,8 @@ export class Lecture {
   title: string;
 
   @Column({ type: 'varchar', length: 255 })
-  lecturer: string;
+  coach: string;
 
-  @OneToMany(
-    () => LectureSchedule,
-    (lectureSchedule) => lectureSchedule.lecture,
-  )
-  lectureSchedule: LectureSchedule[];
-
-  @OneToMany(() => LectureStatus, (lectureStatus) => lectureStatus.lecture)
-  lectureStatus: LectureStatus[];
+  @OneToMany(() => LectureOption, (lectureOption) => lectureOption.lecture)
+  lectureOption: LectureOption[];
 }
