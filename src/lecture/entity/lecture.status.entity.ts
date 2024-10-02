@@ -1,8 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { LectureSchedule } from './lecture.schedule.entity';
-import { Lecture } from './lecture.entity';
+import { LectureOption } from './lecture.option.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity('lecture_status')
 export class LectureStatus {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
@@ -10,12 +15,7 @@ export class LectureStatus {
   @Column({ type: 'int' })
   available_seats: number;
 
-  @ManyToOne(
-    () => LectureSchedule,
-    (lectureSchedule) => lectureSchedule.lectureStatus,
-  )
-  lectureSchedule: LectureSchedule;
-
-  @ManyToOne(() => Lecture, (lecture) => lecture.lectureStatus)
-  lecture: Lecture;
+  @OneToOne(() => LectureOption, (option) => option.lectureStatus)
+  @JoinColumn() // JoinColumn을 사용해 외래키를 설정
+  lectureOption: LectureOption;
 }

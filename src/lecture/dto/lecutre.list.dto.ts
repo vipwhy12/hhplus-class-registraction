@@ -1,5 +1,4 @@
-import { IsDateString, IsInt, Min } from 'class-validator';
-import { LectureDto } from './lecture.dto';
+import { IsDateString, IsInt, IsString, Min } from 'class-validator';
 
 // 특강 목록 DTO
 export class LectureListDto {
@@ -16,5 +15,9 @@ export class LectureListDto {
   @Min(0)
   availableSeats: number;
 
-  lecture: LectureDto;
+  @IsString()
+  title: string;
+
+  @IsString()
+  coach: string;
 }

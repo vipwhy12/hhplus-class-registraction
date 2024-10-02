@@ -2,20 +2,20 @@ import { LectureRepository } from '../lecture.repository';
 import { Injectable } from '@nestjs/common';
 import { MoreThan, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LectureSchedule } from '../entity/lecture.schedule.entity';
+import { LectureOption } from '../entity/lecture.option.entity';
 
 @Injectable()
 export class LectureRepositoryImpl implements LectureRepository {
   constructor(
-    @InjectRepository(LectureSchedule)
-    private lectureScheduleRepository: Repository<LectureSchedule>,
+    @InjectRepository(LectureOption)
+    private lectureOptionRepository: Repository<LectureOption>,
   ) {}
 
   // 주어진 날짜로 신청 가능한 특강 목록을 TypeORM 메서드를 이용해 조회
   async findAvailableLecturesByDate(
     lectureDate: Date,
-  ): Promise<LectureSchedule[]> {
-    return await this.lectureScheduleRepository.find({
+  ): Promise<LectureOption[]> {
+    return await this.lectureOptionRepository.find({
       where: {
         lectureDate: MoreThan(lectureDate),
         lectureStatus: {
