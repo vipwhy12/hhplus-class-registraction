@@ -1,5 +1,5 @@
 import { LectureMapper } from './lecture.mapper';
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { LectureListDto } from './dto/lecutre.list.dto';
 import { LectureRepository, LECTURE_REPOSITORY } from './lecture.repository';
 
@@ -11,10 +11,21 @@ export class LectureService {
     private readonly lectureMapper: LectureMapper,
   ) {}
 
-  //날짜별로 현재 신청 가능한 특강 목록을 조회하는 API
   async findAvailableLectures(date: Date): Promise<LectureListDto[]> {
     const lectures =
       await this.lectureRepository.findAvailableLecturesByDate(date);
     return this.lectureMapper.toLectureListDto(lectures);
+  }
+
+  async checkAvailableSeat(lectureOptionId: number) {
+    const availableSeats =
+      await this.lectureRepository.checkAvailableSeat(lectureOptionId);
+
+    if (availableSeats <= 0)
+      throw new BadRequestException('자리가 부족합니다.');
+  }
+
+  async updateAvailableSeat(lectureOptionId: number) {
+    return await this.lectureRepository.updateAvailableSeat(lectureOptionId);
   }
 }
