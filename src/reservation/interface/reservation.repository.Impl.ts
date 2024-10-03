@@ -15,18 +15,26 @@ export class ReservationRepositoryImpl implements ReservationRepository {
   async createReservation(userId: number, lectureOptionId: number) {
     return await this.reservationRepository.save({
       userId,
-      lectureOption: { id: 1 },
+      lectureOption: { id: lectureOptionId },
     });
   }
 
-  async getLectureReserveById(userId: number, id: number) {
-    const result = await this.reservationRepository.findOne({
+  async hasUserReservedLecture(userId: number, id: number) {
+    return await this.reservationRepository.findOne({
       where: {
         userId,
         lectureOption: { id },
       },
     });
-    return result;
+  }
+
+  async getReserveLectureByUserId(userId: number) {
+    return await this.reservationRepository.find({
+      where: {
+        userId,
+      },
+      relations: ['lectureOption', 'lectureOption.lecture'],
+    });
   }
 
   async addLectureReservation(userId: number, lectureOption: LectureOption) {
