@@ -2,6 +2,7 @@ import { LectureMapper } from './lecture.mapper';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { LectureListDto } from './dto/lecutre.list.dto';
 import { LectureRepository, LECTURE_REPOSITORY } from './lecture.repository';
+import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class LectureService {
@@ -17,15 +18,20 @@ export class LectureService {
     return this.lectureMapper.toLectureListDto(lectures);
   }
 
-  async checkAvailableSeat(lectureOptionId: number) {
-    const availableSeats =
-      await this.lectureRepository.checkAvailableSeat(lectureOptionId);
+  async checkAvailableSeat(lectureOptionId: number, manager: EntityManager) {
+    const availableSeats = await this.lectureRepository.checkAvailableSeat(
+      lectureOptionId,
+      manager,
+    );
 
-    if (availableSeats <= 0)
+    if (availableSeats <= 1)
       throw new BadRequestException('자리가 부족합니다.');
   }
 
-  async updateAvailableSeat(lectureOptionId: number) {
-    return await this.lectureRepository.updateAvailableSeat(lectureOptionId);
+  async updateAvailableSeat(lectureOptionId: number, manager: EntityManager) {
+    return await this.lectureRepository.updateAvailableSeat(
+      lectureOptionId,
+      manager,
+    );
   }
 }

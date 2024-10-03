@@ -3,6 +3,7 @@ import {
   RESERVATION_REPOSITORY,
   ReservationRepository,
 } from './reservation.repository';
+import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class ReservationService {
@@ -31,10 +32,15 @@ export class ReservationService {
     return await this.reservationRepository.getReserveLectureByUserId(userId);
   }
 
-  async createReservation(userId: number, lectureOptionId: number) {
+  async createReservation(
+    userId: number,
+    lectureOptionId: number,
+    manager: EntityManager,
+  ) {
     return await this.reservationRepository.createReservation(
       userId,
       lectureOptionId,
+      manager,
     );
   }
 }

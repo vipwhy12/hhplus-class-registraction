@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ReservationRepository } from '../reservation.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reservation } from '../entity/reservation.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { LectureOption } from 'src/lecture/entity/lecture.option.entity';
 
 @Injectable()
@@ -12,10 +12,16 @@ export class ReservationRepositoryImpl implements ReservationRepository {
     private reservationRepository: Repository<Reservation>,
   ) {}
 
-  async createReservation(userId: number, lectureOptionId: number) {
-    return await this.reservationRepository.save({
+  async createReservation(
+    userId: number,
+    lectureOptionId: number,
+    manager: EntityManager,
+  ) {
+    const reservationManagerRepository = manager.getRepository(Reservation);
+    return await reservationManagerRepository.save({
       userId,
       lectureOption: { id: lectureOptionId },
+      lock: { mode: 'pessimistic_write' },
     });
   }
 

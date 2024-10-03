@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { LectureOption } from 'src/lecture/entity/lecture.option.entity';
+import { LectureOption } from '../../lecture/entity/lecture.option.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('reservation')

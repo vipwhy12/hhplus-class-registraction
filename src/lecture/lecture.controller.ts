@@ -1,4 +1,4 @@
-import { ParseDatePipe } from 'src/common/pipe/parse.date.pipe';
+import { ParseDatePipe } from '../common/pipe/parse.date.pipe';
 import { LectureService } from './lecture.service';
 import { Controller, Get, Param } from '@nestjs/common';
 
