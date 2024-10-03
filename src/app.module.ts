@@ -11,21 +11,31 @@ import { Reservation } from './reservation/entity/reservation.entity';
 import { LectureFacadeModule } from './lecture-facade/lecture-facade.module';
 import { LectureFacadeController } from './lecture-facade/lecture-facade.controller';
 import { LectureFacadeService } from './lecture-facade/lecture-facade.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     LectureModule,
     ReservationModule,
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'LectureReservation',
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: true,
-      // dropSchema: true,
-      entities: [Lecture, LectureStatus, LectureOption, Reservation],
-    }),
     LectureFacadeModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: 'LectureReservation',
+        synchronize: true,
+        logging: true,
+        entities: [Lecture, LectureStatus, LectureOption, Reservation],
+      }),
+    }),
   ],
   controllers: [AppController, LectureFacadeController],
   providers: [AppService, LectureFacadeService],
