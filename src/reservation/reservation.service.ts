@@ -3,7 +3,6 @@ import {
   RESERVATION_REPOSITORY,
   ReservationRepository,
 } from './reservation.repository';
-import { LectureOption } from 'src/lecture/entity/lecture.option.entity';
 
 @Injectable()
 export class ReservationService {
@@ -12,29 +11,28 @@ export class ReservationService {
     private readonly reservationRepository: ReservationRepository,
   ) {}
 
-  //유저 아이디가 들어오면 신청한 수강목록을 반환하는 메서드
-  async getLectureReserveById(userId: number, lectureOptionId: number) {
-    return await this.reservationRepository.getLectureReserveById(
+  /**
+   * 사용자가 특정 수업을 신청했는지 확인하는 함수입니다.
+   */
+  async hasUserReservedLecture(userId: number, lectureOptionId: number) {
+    const reservation = await this.reservationRepository.hasUserReservedLecture(
       userId,
       lectureOptionId,
     );
-  }
 
-  isReservation(reserveLectures) {
-    if (reserveLectures)
+    if (reservation)
       throw new BadRequestException('이미 수강신청한 내용이 존재합니다!');
   }
 
-  //유저 아이디와 강의 옵션이 들어오면 신청한 수강목록을 추가하는 메서드
-  async addLectureReservation(userId: number, lctureOption: LectureOption) {
-    return await this.reservationRepository.addLectureReservation(
-      userId,
-      lctureOption,
-    );
+  /**
+   * 유저가 신청한 모든 수강 목록을 반환하는 메서드
+   */
+  async getReserveLectureByUserId(userId: number) {
+    return await this.reservationRepository.getReserveLectureByUserId(userId);
   }
 
-  createReservation(userId: number, lectureOptionId: number) {
-    return this.reservationRepository.createReservation(
+  async createReservation(userId: number, lectureOptionId: number) {
+    return await this.reservationRepository.createReservation(
       userId,
       lectureOptionId,
     );
