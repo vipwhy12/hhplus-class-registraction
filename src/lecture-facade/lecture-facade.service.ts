@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { LectureService } from './../lecture/lecture.service';
-import { ReservationService } from 'src/reservation/reservation.service';
+import { ReservationService } from '../reservation/reservation.service';
 
 @Injectable()
 export class LectureFacadeService {

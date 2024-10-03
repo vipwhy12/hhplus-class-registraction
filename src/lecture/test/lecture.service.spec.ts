@@ -4,7 +4,6 @@ import { LECTURE_REPOSITORY, LectureRepository } from '../lecture.repository';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { BadRequestException } from '@nestjs/common';
 import { LectureMapper } from '../lecture.mapper';
-import { resolveObjectURL } from 'buffer';
 import { LectureListDto } from '../dto/lecutre.list.dto';
 import { LectureOption } from '../entity/lecture.option.entity';
 
@@ -72,13 +71,11 @@ describe('LectureService', () => {
       ];
 
       it('성공한다.', async () => {
-        jest
-          .spyOn(lectureRepository, 'findAvailableLecturesByDate')
-          .mockResolvedValue(lectureOptions);
+        lectureRepository.findAvailableLecturesByDate.mockResolvedValue(
+          lectureOptions,
+        );
 
-        jest
-          .spyOn(lectureMapper, 'toLectureListDto')
-          .mockReturnValue(lectureListDtos);
+        lectureMapper.toLectureListDto.mockReturnValue(lectureListDtos);
 
         const result = () => lectureService.findAvailableLectures(date);
 
@@ -97,9 +94,7 @@ describe('LectureService', () => {
     describe('좌석이 부족할 때', () => {
       const lectureOptionId = 1;
       it('실패한다.', async () => {
-        jest
-          .spyOn(lectureRepository, 'checkAvailableSeat')
-          .mockResolvedValue(0);
+        lectureRepository.checkAvailableSeat.mockResolvedValue(0);
 
         const result = () => lectureService.checkAvailableSeat(lectureOptionId);
         await expect(result).rejects.toThrow(BadRequestException);
@@ -109,9 +104,7 @@ describe('LectureService', () => {
     describe('좌석이 있을 때', () => {
       const lectureOptionId = 1;
       it('성공한다.', async () => {
-        jest
-          .spyOn(lectureRepository, 'checkAvailableSeat')
-          .mockResolvedValue(5);
+        lectureRepository.checkAvailableSeat.mockResolvedValue(5);
 
         await expect(
           lectureService.checkAvailableSeat(lectureOptionId),
@@ -127,9 +120,7 @@ describe('LectureService', () => {
     describe('좌석 업데이트 요청이 들어오면', () => {
       const lectureOptionId = 1;
       it('성공한다.', async () => {
-        jest
-          .spyOn(lectureRepository, 'updateAvailableSeat')
-          .mockResolvedValue(undefined);
+        lectureRepository.updateAvailableSeat.mockResolvedValue(undefined);
 
         await lectureService.updateAvailableSeat(lectureOptionId);
 
