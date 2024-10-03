@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LectureFacadeController } from './lecture-facade.controller';
+import { LectureFacadeController } from '../lecture-facade.controller';
 
 describe('LectureFacadeController', () => {
   let controller: LectureFacadeController;
