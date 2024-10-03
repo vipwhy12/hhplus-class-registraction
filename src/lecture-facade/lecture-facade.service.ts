@@ -12,14 +12,11 @@ export class LectureFacadeService {
   ) {}
 
   async applyForLecture(userId: number, lectureOptionId: number) {
-    const existingReserve = await this.reservationService.getLectureReserveById(
+    await this.reservationService.hasUserReservedLecture(
       userId,
       lectureOptionId,
     );
 
-    this.reservationService.isReservation(existingReserve);
-
-    //트랜잭션 처리
     try {
       await this.dataSource.transaction(async () => {
         await this.lectureService.checkAvailableSeat(lectureOptionId);
@@ -30,6 +27,7 @@ export class LectureFacadeService {
         );
       });
     } catch (error) {
+      //TODO: 에러 처리
       console.error(error);
       throw new BadRequestException('수강신청이 불가능합니다!');
     }
