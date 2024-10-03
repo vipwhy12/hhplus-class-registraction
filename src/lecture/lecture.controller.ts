@@ -8,6 +8,6 @@ export class LectureController {
 
   @Get('/:date')
   async lecture(@Param('date', ParseDatePipe) date: Date) {
-    return await this.lectureService.getListByDate(date);
+    return await this.lectureService.findAvailableLectures(date);
   }
 }
