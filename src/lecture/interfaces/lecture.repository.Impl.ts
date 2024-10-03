@@ -3,12 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { MoreThan, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LectureOption } from '../entity/lecture.option.entity';
+import { LectureStatus } from '../entity/lecture.status.entity';
 
 @Injectable()
 export class LectureRepositoryImpl implements LectureRepository {
   constructor(
     @InjectRepository(LectureOption)
     private lectureOptionRepository: Repository<LectureOption>,
+    @InjectRepository(LectureStatus)
+    private lectureStatusRepository: Repository<LectureStatus>,
   ) {}
 
   // 주어진 날짜로 신청 가능한 특강 목록을 TypeORM 메서드를 이용해 조회
@@ -24,5 +27,21 @@ export class LectureRepositoryImpl implements LectureRepository {
       },
       relations: ['lecture', 'lectureStatus'], // 관계된 엔티티도 함께 로드
     });
+  }
+
+  async checkAvailableSeat(id: number): Promise<LectureStatus> {
+    return await this.lectureStatusRepository
+      .createQueryBuilder('lectureStatus')
+      .leftJoinAndSelect('lectureStatus.lectureOption', 'lectureOption')
+      .where('lectureOption.id = :id', { id })
+      .getOne();
+  }
+
+  async updateAvailableSeat(lectureOption: number) {
+    return await this.lectureStatusRepository.decrement(
+      { lectureOption: { id: lectureOption } },
+      'available_seats',
+      1,
+    );
   }
 }

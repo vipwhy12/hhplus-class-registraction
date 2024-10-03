@@ -7,9 +7,14 @@ import { Lecture } from './entity/lecture.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LectureStatus } from './entity/lecture.status.entity';
 import { LectureOption } from './entity/lecture.option.entity';
+import { LectureMapper } from './lecture.mapper';
+import { ReservationModule } from 'src/reservation/reservation.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Lecture, LectureStatus, LectureOption])],
+  imports: [
+    TypeOrmModule.forFeature([Lecture, LectureStatus, LectureOption]),
+    ReservationModule,
+  ],
   controllers: [LectureController],
   providers: [
     {
@@ -17,6 +22,8 @@ import { LectureOption } from './entity/lecture.option.entity';
       useClass: LectureRepositoryImpl,
     },
     LectureService,
+    LectureMapper,
   ],
+  exports: [LectureService],
 })
 export class LectureModule {}
