@@ -8,7 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LectureStatus } from './entity/lecture.status.entity';
 import { LectureOption } from './entity/lecture.option.entity';
 import { LectureMapper } from './lecture.mapper';
-import { ReservationModule } from 'src/reservation/reservation.module';
+import { ReservationModule } from '../reservation/reservation.module';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { LectureRepository } from '../lecture.repository';
 import { Injectable } from '@nestjs/common';
-import { MoreThan, Repository } from 'typeorm';
+import { EntityManager, MoreThan, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LectureOption } from '../entity/lecture.option.entity';
 import { LectureStatus } from '../entity/lecture.status.entity';
@@ -29,16 +29,33 @@ export class LectureRepositoryImpl implements LectureRepository {
     });
   }
 
-  async checkAvailableSeat(id: number): Promise<LectureStatus> {
-    return await this.lectureStatusRepository
+  async checkAvailableSeat(
+    id: number,
+    manager: EntityManager,
+  ): Promise<LectureStatus> {
+    const lectureStatusManagerRepository = manager.getRepository(LectureStatus);
+    return await lectureStatusManagerRepository
       .createQueryBuilder('lectureStatus')
       .leftJoinAndSelect('lectureStatus.lectureOption', 'lectureOption')
       .where('lectureOption.id = :id', { id })
+      .setLock('pessimistic_write')
       .getOne();
   }
 
-  async updateAvailableSeat(lectureOption: number) {
-    return await this.lectureStatusRepository.decrement(
+  async updateAvailableSeat(lectureOption: number, manager: EntityManager) {
+    const lectureStatusManagerRepository = manager.getRepository(LectureStatus);
+
+    // 비관적 락을 사용하여 LectureStatus 엔티티를 잠금
+    const lectureStatus = await lectureStatusManagerRepository.findOne({
+      where: { lectureOption: { id: lectureOption } },
+      lock: { mode: 'pessimistic_write' },
+    });
+
+    if (!lectureStatus) {
+      throw new Error('Lecture status not found');
+    }
+
+    return await lectureStatusManagerRepository.decrement(
       { lectureOption: { id: lectureOption } },
       'available_seats',
       1,

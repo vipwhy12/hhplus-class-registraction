@@ -18,12 +18,13 @@ export class LectureFacadeService {
     );
 
     try {
-      await this.dataSource.transaction(async () => {
-        await this.lectureService.checkAvailableSeat(lectureOptionId);
-        await this.lectureService.updateAvailableSeat(lectureOptionId);
+      await this.dataSource.transaction(async (manager) => {
+        await this.lectureService.checkAvailableSeat(lectureOptionId, manager);
+        await this.lectureService.updateAvailableSeat(lectureOptionId, manager);
         await this.reservationService.createReservation(
           userId,
           lectureOptionId,
+          manager,
         );
       });
     } catch (error) {

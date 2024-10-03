@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Lecture } from './lecture.entity';
 import { LectureStatus } from './lecture.status.entity';
-import { Reservation } from 'src/reservation/entity/reservation.entity';
+import { Reservation } from '../../reservation/entity/reservation.entity';
 
 @Entity('lecture_option')
 export class LectureOption {
