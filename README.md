@@ -1,3 +1,74 @@
+
+## 1.프로젝트 소개 😊
+
+`hhplus-lecture-reservation` 은 매주 토요일 특강을 청강하고자 하는 학생들이, 치열하게 한정된 인원의 수업을 신청하는 서비스입니다. 해당 프로젝트는 다음과 같은 특징을 가집니다. 
+
+- 각 특강의 한정 인원은 30명입니다.
+- 30명이 초과한 특강은 신청할 수 없습니다.
+- 한 명의 사용자는 하나의 특강만을 신청할 수 있습니다.
+
+
+## 2. 개발 스택 
+- FrameWork: `Nest.js`
+- DataBase: `SqlLight` -> `MySql`
+
+
+## 3. API 엔드포인트
+- [GET]
+- [POST]
+- [GET]
+
+## 4. 아키텍쳐 설계 
+좋은 아키텍처는 확장 가능하고 유지보수가 용이하며, 각 레이어가 명확하게 분리되어 있는 구조라고 생각합니다. 따라서 이번 설계에서는 단일 책임 원칙을 준수하여 각 레이어가 고유한 역할을 하도록 분리하고, 추상화를 통해 의존성을 줄이면서도 불필요한 복잡성을 피하는 방식으로 아키텍처를 구성하게 되었습니다.
+
+설계를 진행하면서 중요하게 참고한 내용은 다음과 같습니다:
+- **읽기 쉽고 단순한 코드** - 코드는 누구나 쉽게 읽을 수 있어야 하며, 너무 많은 책임을 가지고 있지 않을 것
+- **의존성** 격리 - 모듈 간 미치는 영향을 최소화하기 위해 의존성 격리를 고려할 것
+- **추상화** - 명세와 구현을 적절히 분리할 것
+- **중복성** 최소화 - 중복된 코드는 최대한 지양할 것
+
+실제로 이번에 추상화를 통해서 
+
+```
+├── src/
+│   ├── common/
+│   │   ├── pipe
+│   │   └── ── parse.date.pipe.ts
+│   │   
+│   ├── lecture/
+│   │   ├── lecture.controller.ts
+│   │   ├── lecture.service.ts
+│   │   ├── lecture.repository.ts
+│   │   ├── lecture.repository.imple.ts
+│   │   └── lecture.module.ts
+│   │
+│   ├── reservation/
+│   │   ├── reservation.controller.ts
+│   │   ├── reservation.service.ts
+│   │   ├── reservation.repository.ts
+│   │   ├── reservation.repository.imple.ts
+│   │   └── reservation.module.ts
+│   │
+│   ├── lecture-facade/
+│   │   ├── lecture-facade.controller.ts
+│   │   ├── lecture-facade.service.ts
+│   │   └── lecture-facade.module.ts
+│   │
+│   ├── lecture/
+│   │   ├── lecture.controller.ts
+│   │   ├── lecture.service.ts
+│   │   ├── lecture.repository.ts
+│   │   ├── lecture.repository.imple.ts
+│   │   └── lecture.module.ts
+```
+
+
+## 4. 특강 신청 서비스 ERD
+
+![이미지 설명](https://private-user-images.githubusercontent.com/85014628/373015113-85e27ca0-0f31-4a09-a0d2-4cbb630e1073.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjgwMDYwNTYsIm5iZiI6MTcyODAwNTc1NiwicGF0aCI6Ii84NTAxNDYyOC8zNzMwMTUxMTMtODVlMjdjYTAtMGYzMS00YTA5LWEwZDItNGNiYjYzMGUxMDczLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDA0VDAxMzU1NlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUzMzE3YmEwMWFhYjc5ZWYzYTNjMGJlOTE4YjJiN2NhYzRlODk0OGU3YjNmNzcwMThkMTE5NzM1OTI1OTk3MzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.cHVSQ5viO0Tq-AxYjeOA3dtsYPlAebUzuDUpro2Qz7s)
+
+
+
 1. Lecture (특강): 특강에 대한 기본 정보를 저장하는 테이블로, 특강 제목과 코치를 저장합니다. 다른 엔티티들이 이 테이블과 관계를 맺어 강의의 스케줄과 상태를 관리할 수 있도록 합니다.
 
 2. LectureSchedule (특강 스케줄):
