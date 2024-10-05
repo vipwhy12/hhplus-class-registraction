@@ -65,7 +65,6 @@
 낙관적 락을 선택하지 않은 이유는 확장 가능한 구조를 생각해보면 다수의 인스턴스를 낙관적락보다 비관적 락으로 설정했을 때 안정성을 얻을 수 있다고 생각했지 때문입니다.
 
 ![](./erd.png)
-![이미지 설명](https://private-user-images.githubusercontent.com/85014628/373015113-85e27ca0-0f31-4a09-a0d2-4cbb630e1073.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjgwMDYwNTYsIm5iZiI6MTcyODAwNTc1NiwicGF0aCI6Ii84NTAxNDYyOC8zNzMwMTUxMTMtODVlMjdjYTAtMGYzMS00YTA5LWEwZDItNGNiYjYzMGUxMDczLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDA0VDAxMzU1NlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUzMzE3YmEwMWFhYjc5ZWYzYTNjMGJlOTE4YjJiN2NhYzRlODk0OGU3YjNmNzcwMThkMTE5NzM1OTI1OTk3MzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.cHVSQ5viO0Tq-AxYjeOA3dtsYPlAebUzuDUpro2Qz7s)
 
 1. Lecture (특강): 특강에 대한 기본 정보를 저장하는 테이블로, 특강 제목과 코치를 저장합니다. 다른 엔티티들이 이 테이블과 관계를 맺어 강의의 스케줄과 상태를 관리할 수 있도록 합니다.
 
