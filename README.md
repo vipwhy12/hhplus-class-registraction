@@ -27,7 +27,7 @@
 - **추상화** - 명세와 구현을 적절히 분리할 것
 - **중복성** 최소화 - 중복된 코드는 최대한 지양할 것
 
-실제로 이번에 추상화를 통해서 
+실제로 이번에 추상화를 통해서 데이터 베이스 변경 시, 설정만 바꿔주면 되는 경험을 하게되었습니다!!
 
 ```
 ├── src/
@@ -64,6 +64,10 @@
 
 
 ## 4. 특강 신청 서비스 ERD
+
+특강 신청 서비스에는 특강을 신청하는 로직을 수행할 때, 데이터베이스가 최소한의 락을 가져 DB의 부하를 최소화 할 수 있도록 하였고, 비관적 락을 설정하였습니다. 
+
+낙관적 락을 선택하지 않은 이유는 확장 가능한 구조를 생각해보면 다수의 인스턴스를 낙관적락보다 비관적 락으로 설정했을 때 안정성을 얻을 수 있다고 생각했지 때문입니다. 
 
 ![이미지 설명](https://private-user-images.githubusercontent.com/85014628/373015113-85e27ca0-0f31-4a09-a0d2-4cbb630e1073.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjgwMDYwNTYsIm5iZiI6MTcyODAwNTc1NiwicGF0aCI6Ii84NTAxNDYyOC8zNzMwMTUxMTMtODVlMjdjYTAtMGYzMS00YTA5LWEwZDItNGNiYjYzMGUxMDczLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDA0VDAxMzU1NlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUzMzE3YmEwMWFhYjc5ZWYzYTNjMGJlOTE4YjJiN2NhYzRlODk0OGU3YjNmNzcwMThkMTE5NzM1OTI1OTk3MzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.cHVSQ5viO0Tq-AxYjeOA3dtsYPlAebUzuDUpro2Qz7s)
 
