@@ -53,13 +53,8 @@
 │   │   ├── lecture-facade.controller.ts
 │   │   ├── lecture-facade.service.ts
 │   │   └── lecture-facade.module.ts
-│   │
-│   ├── lecture/
-│   │   ├── lecture.controller.ts
-│   │   ├── lecture.service.ts
-│   │   ├── lecture.repository.ts
-│   │   ├── lecture.repository.imple.ts
-│   │   └── lecture.module.ts
+└───    
+
 ```
 
 
