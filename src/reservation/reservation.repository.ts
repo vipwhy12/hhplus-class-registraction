@@ -12,7 +12,11 @@ export interface ReservationRepository {
     manager?: EntityManager,
   );
 
-  hasUserReservedLecture(userId: number, lectureOptionId: number);
+  hasUserReservedLecture(
+    userId: number,
+    lectureOptionId: number,
+    manager?: EntityManager,
+  );
 
   addLectureReservation(userId: number, lctureOption: LectureOption);
 }

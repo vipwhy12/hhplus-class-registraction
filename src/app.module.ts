@@ -32,7 +32,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         password: configService.get('DB_PASSWORD'),
         database: 'LectureReservation',
         synchronize: true,
-        logging: true,
+        logging: false,
         entities: [Lecture, LectureStatus, LectureOption, Reservation],
       }),
     }),

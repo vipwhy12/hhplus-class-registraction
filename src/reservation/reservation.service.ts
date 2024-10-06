@@ -15,10 +15,15 @@ export class ReservationService {
   /**
    * 사용자가 특정 수업을 신청했는지 확인하는 함수입니다.
    */
-  async hasUserReservedLecture(userId: number, lectureOptionId: number) {
+  async hasUserReservedLecture(
+    userId: number,
+    lectureOptionId: number,
+    manager: EntityManager,
+  ) {
     const reservation = await this.reservationRepository.hasUserReservedLecture(
       userId,
       lectureOptionId,
+      manager,
     );
 
     if (reservation)

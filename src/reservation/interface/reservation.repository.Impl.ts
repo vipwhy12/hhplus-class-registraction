@@ -25,11 +25,19 @@ export class ReservationRepositoryImpl implements ReservationRepository {
     });
   }
 
-  async hasUserReservedLecture(userId: number, id: number) {
-    return await this.reservationRepository.findOne({
+  async hasUserReservedLecture(
+    userId: number,
+    id: number,
+    manager: EntityManager,
+  ) {
+    const transanctionReservationRepositoy = manager.getRepository(Reservation);
+    return await transanctionReservationRepositoy.findOne({
       where: {
         userId,
         lectureOption: { id },
+      },
+      lock: {
+        mode: 'pessimistic_write',
       },
     });
   }

@@ -18,13 +18,21 @@ export class LectureService {
     return this.lectureMapper.toLectureListDto(lectures);
   }
 
-  async checkAvailableSeat(lectureOptionId: number, manager: EntityManager) {
-    const availableSeats = await this.lectureRepository.checkAvailableSeat(
+  async checkAvailableSeat(
+    lectureOptionId: number,
+    manager: EntityManager,
+    userId: number,
+  ) {
+    const lectureStatus = await this.lectureRepository.checkAvailableSeat(
       lectureOptionId,
       manager,
     );
 
-    if (availableSeats <= 1)
+    console.log(
+      `userId: ${userId}, availableSeats: ${lectureStatus.available_seats}`,
+    );
+
+    if (lectureStatus.available_seats < 1)
       throw new BadRequestException('자리가 부족합니다.');
   }
 

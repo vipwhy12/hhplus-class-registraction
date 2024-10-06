@@ -62,6 +62,7 @@ describe('LectureFacadeService', () => {
       expect(reservationService.hasUserReservedLecture).toHaveBeenCalledWith(
         userId,
         lectureOptionId,
+        manager,
       );
     });
 
